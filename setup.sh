@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# Токен Civitai передаётся при запуске, в файле его хранить не нужно
-CIVITAI_TOKEN="${CIVITAI_TOKEN:?Задай токен: CIVITAI_TOKEN=твой_токен перед командой}"
-
 # Путь к ComfyUI (на шаблонах vast обычно /workspace/ComfyUI)
 COMFY=/workspace/ComfyUI
 
@@ -27,12 +24,9 @@ cd $COMFY/models/checkpoints
 wget -c -q --show-progress \
   https://huggingface.co/Drditone/safetensors/resolve/main/illustriousXL_v01.safetensors &
 
-# --- Лоры ---
+# --- Лора kkamja ---
 cd $COMFY/models/loras
 gdown 1_9v5722HWTNptNMC9VLmQSBMY8E5wloX -O kkamja.safetensors
-wget -c -q --show-progress \
-  "https://civitai.com/api/download/models/1722309?token=$CIVITAI_TOKEN" \
-  -O dynamic-pose-illustriousxl-lora-nochekaiser.safetensors
 
 # --- Воркфлоу ---
 mkdir -p $COMFY/user/default/workflows
@@ -40,4 +34,4 @@ gdown --folder 1gUXftM015_2r2Zq5t1WcFcgLZhqi892t -O $COMFY/user/default/workflow
 
 # Ждём, пока докачается чекпоинт
 wait
-echo "ГОТОВО. Перезапусти ComfyUI."
+echo "ГОТОВО. Загрузи лору dynamic-pose вручную в models/loras и перезапусти ComfyUI."
